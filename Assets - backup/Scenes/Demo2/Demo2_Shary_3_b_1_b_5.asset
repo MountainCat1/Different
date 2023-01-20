@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d31b603a78389904dadb1a3d382f0acf, type: 3}
+  m_Name: Demo2_Shary_3_b_1_b_5
+  m_EditorClassIdentifier: 
+  actions: []
+  title: Shary
+  text: Demo2_Shary_3_b_1_b_5
+  sprite: {fileID: 21300000, guid: 80da837694279ed4ca2b622b29e70662, type: 3}
+  next: {fileID: 11400000, guid: 910d7e559d769be4486b595aef507f45, type: 2}
+  textLocalized: "Anyway\u2026 our first objective will be to meet him in person,
+    then we will think of the rest.\r"

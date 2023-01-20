@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f4f80a5b36320409f5365b0498896f, type: 3}
+  m_Name: Inspection_Bed
+  m_EditorClassIdentifier: 
+  nodeLinks:
+  - baseNodeGuid: 8b1227e9649fe37478c85df3d61c3376
+    portName: Next
+    targetNodeGuid: 271f5fb77f4930b46bbe3c14cbe1cc49
+  simpleDialogueNodeData: []
+  narrationDialogueNodeData:
+  - guid: 271f5fb77f4930b46bbe3c14cbe1cc49
+    position: {x: 257, y: 113}
+    text: Demo1_bed
+  optionDialogueNodeData: []

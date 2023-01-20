@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f4f80a5b36320409f5365b0498896f, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  nodeLinks:
+  - baseNodeGuid: 99e412d67874fee49b38c07846119f5e
+    portName: Next
+    targetNodeGuid: 88c82509db64caa4380507be125b7c18
+  - baseNodeGuid: 88c82509db64caa4380507be125b7c18
+    portName: Output
+    targetNodeGuid: e733b9c2986e5de45980d8794e712ad6
+  - baseNodeGuid: e733b9c2986e5de45980d8794e712ad6
+    portName: simple
+    targetNodeGuid: 99bff21be88bee147b397de5faa6bac1
+  - baseNodeGuid: e733b9c2986e5de45980d8794e712ad6
+    portName: nbarr
+    targetNodeGuid: d01caa4301ef4294e89b6bb817881b8c
+  simpleDialogueNodeData:
+  - guid: 88c82509db64caa4380507be125b7c18
+    position: {x: 230, y: 149}
+    portrait: Dialogue Portrait
+    title: uwu
+    text: Dialogue Text
+  - guid: 99bff21be88bee147b397de5faa6bac1
+    position: {x: 700, y: 15}
+    portrait: Dialogue Portrait
+    title: 
+    text: 2
+  narrationDialogueNodeData:
+  - guid: d01caa4301ef4294e89b6bb817881b8c
+    position: {x: 717, y: 292}
+    text: 3
+  optionDialogueNodeData:
+  - guid: e733b9c2986e5de45980d8794e712ad6
+    position: {x: 431, y: 136}

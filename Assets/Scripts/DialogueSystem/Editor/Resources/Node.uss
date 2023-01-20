@@ -1,0 +1,15 @@
+﻿OptionDialogueNode #title {
+	background-color: darkgreen;
+}
+
+NarrativeDialogueNode #title {
+	background-color: darkslategrey;
+}
+
+SimpleDialogueNode #title {
+	background-color: darkslateblue;
+}
+
+DialogueNode {
+	background-color: rgb(127, 255, 212);
+}
