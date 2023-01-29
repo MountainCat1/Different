@@ -48,15 +48,17 @@ public class DialogueGraphView : GraphView
 
     private DialogueNode GenerateEntryPointNode()
     {
+        var guid = GUID.Generate().ToString();
+        
         var node = new SimpleDialogueNode()
         {
-            title = "START",
-            GUID = GUID.Generate().ToString(),
+            title = $"START",
+            GUID = guid,
             EntryPoint = true
         };
 
         var generatedPort = GeneratePort(node, Direction.Output);
-        generatedPort.portName = "Next";
+        generatedPort.portName = "Start";
         node.outputContainer.Add(generatedPort);
 
         node.capabilities &= ~Capabilities.Movable;
@@ -95,10 +97,12 @@ public class DialogueGraphView : GraphView
         string dialoguePortrait = "Dialogue Portrait", 
         string dialogueTitle = "Dialogue Title")
     {
+        var guid = GUID.Generate().ToString();
+        
         var dialogueNode = new SimpleDialogueNode()
         {
-            title = "Simple Dialogue",
-            GUID = GUID.Generate().ToString(),
+            title = $"Simple Dialogue",
+            GUID = guid,
             dialogueText = dialogueText,
             portrait = dialoguePortrait,
             dialogueTitle = dialogueTitle
@@ -224,10 +228,10 @@ public class DialogueGraphView : GraphView
         dialogueNode.RefreshExpandedState();
     }
 
-    private void RemovePort(DialogueNode dialogueNode, Port generatedPort)
+    public void RemovePort(DialogueNode dialogueNode, Port portToRemove)
     {
         var targetEdge = edges.ToList().Where(x => 
-            x.output.portName == generatedPort.portName && x.output.node == generatedPort.node);
+            x.output.portName == portToRemove.portName && x.output.node == portToRemove.node);
 
         if (targetEdge.Any())
         {
@@ -235,7 +239,8 @@ public class DialogueGraphView : GraphView
             edge.input.Disconnect(edge);
             RemoveElement(targetEdge.First());
         }
-        dialogueNode.outputContainer.Remove(generatedPort);
+        
+        dialogueNode.outputContainer.Remove(portToRemove);
         dialogueNode.RefreshPorts();
         dialogueNode.RefreshExpandedState();
     }

@@ -17,8 +17,7 @@ public class SimpleDialogueNode : DialogueNode
     public string dialogueText;
     public string portrait;
     public string dialogueTitle;
-
-
+    
     public override DialogueNodeData GetData(Vector2 position)
     {
         return new SimpleDialogueData()

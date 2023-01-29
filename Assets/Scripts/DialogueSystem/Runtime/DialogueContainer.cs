@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,6 +9,7 @@ using UnityEngine.Serialization;
 public class DialogueContainer : ScriptableObject
 {
     public List<NodeLinkData> nodeLinks = new List<NodeLinkData>();
+    public string startingNodeGuid;
     
     public List<SimpleDialogueData> simpleDialogueNodeData = new List<SimpleDialogueData>();
     public List<NarrationDialogueData> narrationDialogueNodeData = new List<NarrationDialogueData>();

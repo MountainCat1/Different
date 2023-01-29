@@ -30,7 +30,10 @@ public class GraphSaveUtility
     {
         var dialogueContainer = ScriptableObject.CreateInstance<DialogueContainer>();
 
-        var connectedPorts = Edges.Where(x => x.input.node != null).ToArray();
+        var connectedPorts = Edges
+            .Where(x => x.input.node != null)
+            .Where(x => !(x.output.node as DialogueNode)!.EntryPoint)
+            .ToArray();
 
         for (int i = 0; i < connectedPorts.Length; i++)
         {
@@ -44,6 +47,11 @@ public class GraphSaveUtility
                 targetNodeGuid = inputNode.GUID
             });
         }
+        
+        var entryPointNode = Edges.FirstOrDefault(x => (x.output.node as DialogueNode)!.EntryPoint);
+        if (entryPointNode is not null)
+            dialogueContainer.startingNodeGuid = (entryPointNode.input.node as DialogueNode)!.GUID;
+        
 
         foreach (var dialogueNode in Nodes.Where(node => !node.EntryPoint))
         {
@@ -85,16 +93,24 @@ public class GraphSaveUtility
 
     private void ConnectNodes()
     {
-        for (int i = 0; i < Nodes.Count; i++)
+        foreach (var dialogueNode in Nodes.Where(node => !node.EntryPoint))
         {
-            var connections = _containerCache.nodeLinks.Where(x => x.baseNodeGuid == Nodes[i].GUID).ToList();
+            var connections = _containerCache.nodeLinks.Where(x => x.baseNodeGuid == dialogueNode.GUID).ToList();
 
-            for (int j = 0; j < connections.Count; j++)
+            for (var j = 0; j < connections.Count; j++)
             {
                 var targetNodeGuid = connections[j].targetNodeGuid;
                 var targetNode = Nodes.First(x => x.GUID == targetNodeGuid);
-                LinkNodes(Nodes[i].outputContainer[j].Q<Port>(), (Port)targetNode.inputContainer[0]);
+                LinkNodes(dialogueNode.outputContainer[j].Q<Port>(), (Port)targetNode.inputContainer[0]);
             }
+        }
+
+        if (_containerCache.startingNodeGuid != null)
+        {
+            var startNode = Nodes.First(x => x.EntryPoint);
+            var dialogueNode = Nodes.First(x => x.GUID == _containerCache.startingNodeGuid);
+
+            LinkNodes(startNode.outputContainer[0].Q<Port>(), (Port)dialogueNode.inputContainer[0]);
         }
     }
 
@@ -103,7 +119,7 @@ public class GraphSaveUtility
         var tempEdge = new Edge()
         {
             output = output,
-            input = input,
+            input = input
         };
 
         tempEdge.input.Connect(tempEdge);
@@ -121,8 +137,15 @@ public class GraphSaveUtility
             tempNode.GUID = nodeData.guid;
             _targetGraphView.AddDialogueNode(tempNode, nodeData.position);
 
+            // Remove initial port
+            var generatedPort = tempNode.outputContainer.Q<Port>();
+            _targetGraphView.RemovePort(tempNode, generatedPort);
+            
             var nodePorts = _containerCache.nodeLinks.Where(x => x.baseNodeGuid == nodeData.guid).ToList();
-            nodePorts.ForEach(x => _targetGraphView.AddChoicePort(tempNode, x.portName));
+            nodePorts.ForEach(x =>
+            {
+                _targetGraphView.AddChoicePort(tempNode, x.portName);
+            });
         }
         
         // Create Narration Dialogue Nodes
@@ -151,10 +174,6 @@ public class GraphSaveUtility
 
     private void ClearGraph()
     {
-        var entryNode = Nodes.Find(x => x.EntryPoint);
-        if(entryNode is not null)
-            entryNode.GUID = _containerCache.nodeLinks[0].baseNodeGuid;
-        
         foreach (var node in Nodes)
         {
             if (node.EntryPoint) continue;
