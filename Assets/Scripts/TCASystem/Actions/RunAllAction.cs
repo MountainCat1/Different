@@ -25,8 +25,7 @@ namespace TCASystem
             if (actionsContainer == null)
                 actionsContainer = gameObject;
 
-            if (actions == null)
-                actions = actionsContainer.GetComponentsInChildren<RunAction>();
+            actions = actionsContainer.GetComponentsInChildren<RunAction>();
         }
     }
 }
