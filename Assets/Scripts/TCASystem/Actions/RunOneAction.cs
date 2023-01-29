@@ -19,11 +19,9 @@ namespace TCASystem
                                                      // kod, za takie coś to się powinno do więzienia iść
             {
                 bool ok = true;
-                if (runAction.action is CheckObject)
+                if (runAction.action is CheckObject checkComponent)
                 {
                     
-                    CheckObject checkComponent = (runAction.action as CheckObject);
-
                     if (!checkComponent.Check())
                     {
                         ok = false;
@@ -52,7 +50,6 @@ namespace TCASystem
             if (actionsContainer == null)
                 actionsContainer = gameObject;
 
-            
             actions = actionsContainer.GetComponentsInChildren<RunAction>();
         }
     }

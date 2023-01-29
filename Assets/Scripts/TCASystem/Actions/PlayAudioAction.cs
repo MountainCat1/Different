@@ -11,7 +11,6 @@ namespace TCASystem
 
         public override void Action()
         {
-
             AudioManager.Instance.PlaySound(audioClip);
         }
     }
