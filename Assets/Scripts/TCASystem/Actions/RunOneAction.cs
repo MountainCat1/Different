@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -51,8 +52,8 @@ namespace TCASystem
             if (actionsContainer == null)
                 actionsContainer = gameObject;
 
-            if (actions == null)
-                actions = actionsContainer.GetComponentsInChildren<RunAction>();
+            
+            actions = actionsContainer.GetComponentsInChildren<RunAction>();
         }
     }
 }
