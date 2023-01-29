@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   nodeLinks:
-  - baseNodeGuid: 99e412d67874fee49b38c07846119f5e
-    portName: Next
-    targetNodeGuid: 88c82509db64caa4380507be125b7c18
   - baseNodeGuid: 88c82509db64caa4380507be125b7c18
     portName: Output
     targetNodeGuid: e733b9c2986e5de45980d8794e712ad6
@@ -25,21 +22,22 @@ MonoBehaviour:
   - baseNodeGuid: e733b9c2986e5de45980d8794e712ad6
     portName: nbarr
     targetNodeGuid: d01caa4301ef4294e89b6bb817881b8c
+  startingNodeGuid: 88c82509db64caa4380507be125b7c18
   simpleDialogueNodeData:
   - guid: 88c82509db64caa4380507be125b7c18
-    position: {x: 230, y: 149}
+    position: {x: 230.28572, y: 149.14287}
     portrait: Dialogue Portrait
     title: uwu
     text: Dialogue Text
   - guid: 99bff21be88bee147b397de5faa6bac1
-    position: {x: 700, y: 15}
+    position: {x: 700, y: 14.857143}
     portrait: Dialogue Portrait
     title: 
     text: 2
   narrationDialogueNodeData:
   - guid: d01caa4301ef4294e89b6bb817881b8c
-    position: {x: 717, y: 292}
+    position: {x: 717.1429, y: 292}
     text: 3
   optionDialogueNodeData:
   - guid: e733b9c2986e5de45980d8794e712ad6
-    position: {x: 431, y: 136}
+    position: {x: 430.85715, y: 136}

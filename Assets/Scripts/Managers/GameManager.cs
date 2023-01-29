@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        GameLocalization.LoadLanguage();
+        GameLocalization.ReloadLanguage();
 
         if (spawnPlayer && !PlayerController.Instance)
         {
@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
         UIManager.Instance.FadeOutOfBlackScreen();
 
-        Debug.Log($"Loding scene {sceneName}...");
+        Debug.Log($"Loading scene {sceneName}...");
     }
 
     [Obsolete("This method is deprecated, please use LoadScene(string sceneName)")]

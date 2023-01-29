@@ -73,11 +73,10 @@ public class NavigationManager : MonoBehaviour
     }
     private void OnMapChanged(GridMap gridMap)
     {
-        nodeMap = ConstructNodeMap();
+        nodeMap = ConstructNodeMap(gridMap);
     }
-    private Astar.NodeMap<GridTile> ConstructNodeMap()
+    private Astar.NodeMap<GridTile> ConstructNodeMap(GridMap gridMap)
     {
-        GridMap gridMap = GridMap.Instance;
         Astar.NodeMap<GridTile> nodeMap = new Astar.NodeMap<GridTile>();
 
         foreach (var item in gridMap.Tiles)

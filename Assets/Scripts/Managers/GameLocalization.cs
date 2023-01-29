@@ -7,12 +7,20 @@ public static class GameLocalization
 {
     private static readonly Dictionary<string, Dictionary<string, string>> LanguageDictionaries = new Dictionary<string, Dictionary<string, string>>();
 
-    public static string selectedLanguage = "English";
+    public const string SelectedLanguage = "English";
 
     public static void LoadLanguage()
     {
-        LoadLanguage(selectedLanguage);
+        LoadLanguage(SelectedLanguage);
     }
+
+    public static void ReloadLanguage()
+    {
+        Debug.Log($"Reloading {SelectedLanguage} language... ");
+        LanguageDictionaries.Clear();
+        LoadLanguage();
+    }
+    
     public static void LoadLanguage(string language)
     {
         Debug.Log($"Loading localization for language: {language}...");
@@ -64,7 +72,7 @@ public static class GameLocalization
     {
         string simplifiedText = SimplifyString(text);
 
-        if (LanguageDictionaries[selectedLanguage].TryGetValue(simplifiedText, out string localizedText))
+        if (LanguageDictionaries[SelectedLanguage].TryGetValue(simplifiedText, out string localizedText))
         {
             return localizedText;
         }

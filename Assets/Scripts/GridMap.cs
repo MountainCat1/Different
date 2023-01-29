@@ -7,8 +7,12 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class GridMap : MonoBehaviour
 {
-    public static GridMap Instance { get; private set; }
+    public static GridMap Instance => _instance 
+            ? _instance 
+            : _instance = FindObjectOfType<GridMap>();
 
+    private static GridMap _instance;
+    
     public static event Action<GridMap> MapChanged;
 
     public Dictionary<Vector2Int, GridTile> Tiles { get; set; }
@@ -29,26 +33,14 @@ public class GridMap : MonoBehaviour
             GenerateMap();
         if (drawCollisions)
             DrawMapGizmos();
-        
     }
 #endif
-
-    private void Awake()
-    {
-        if (Instance)
-        {
-            Destroy(Instance);
-            Debug.LogError("Singeleton duplicated!");
-        }
-
-        Instance = this;
-    }
 
     private void Start()
     {
         GenerateMap();
     }
-
+    
     public bool CanWalk(Vector2Int pos)
     {
         if(!Tiles.ContainsKey(pos))
@@ -241,8 +233,9 @@ public class GridTile
     }
 
     public List<GridTile> Neighbours { get; set; } = new List<GridTile>();
+    
     public bool Walkable { get => GridMap.Instance.CanWalk(Position); }
-
+    
     public Vector2Int Position { get; private set; }
     public Vector2 RealPosition { get; private set; }
 }

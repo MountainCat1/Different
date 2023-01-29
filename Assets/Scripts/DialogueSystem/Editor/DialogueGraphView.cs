@@ -58,7 +58,7 @@ public class DialogueGraphView : GraphView
         };
 
         var generatedPort = GeneratePort(node, Direction.Output);
-        generatedPort.portName = "Start";
+        generatedPort.portName = NodeLinkData.StartLinkName;
         node.outputContainer.Add(generatedPort);
 
         node.capabilities &= ~Capabilities.Movable;

@@ -46,11 +46,7 @@ public class DialogueContainer : ScriptableObject
 
     public DialogueNodeData GetStartNode()
     {
-        var startNode = nodeLinks.First(x => x.portName == "Next");
-
-        var startNodeGuid = startNode.targetNodeGuid;
-
-        return NodeData.First(x => x.guid == startNodeGuid);
+        return NodeData.First(x => x.guid ==  startingNodeGuid);
     }
     
     private DialogueNodeData GetNodeData(string guid)
