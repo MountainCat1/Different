@@ -151,7 +151,10 @@ public class GraphSaveUtility
 
     private void ClearGraph()
     {
-        Nodes.Find(x => x.EntryPoint).GUID = _containerCache.nodeLinks[0].baseNodeGuid;
+        var entryNode = Nodes.Find(x => x.EntryPoint);
+        if(entryNode is not null)
+            entryNode.GUID = _containerCache.nodeLinks[0].baseNodeGuid;
+        
         foreach (var node in Nodes)
         {
             if (node.EntryPoint) continue;

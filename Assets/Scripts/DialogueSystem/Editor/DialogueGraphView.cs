@@ -100,7 +100,8 @@ public class DialogueGraphView : GraphView
             title = "Simple Dialogue",
             GUID = GUID.Generate().ToString(),
             dialogueText = dialogueText,
-            portrait = dialoguePortrait
+            portrait = dialoguePortrait,
+            dialogueTitle = dialogueTitle
         };
 
         dialogueNode.styleSheets.Add(Resources.Load<StyleSheet>("Node"));
