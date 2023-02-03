@@ -30,10 +30,10 @@ public class NavigationManager : MonoBehaviour
         GridTile start = GridMap.Instance.Tiles[startPos];
         GridTile goal = GridMap.Instance.Tiles[goalPos];
 
-        if (startPos == goalPos)         // If you are arleady in a goal pos, you stay there
+        if (startPos == goalPos)         // If you are already in a goal pos, you stay there
             return start;
 
-        if (start.Neighbours.Count == 0) // If there is no neighours, stay where you are
+        if (start.Neighbours.Count == 0) // If there is no neighbours, stay where you are
             return start;
 
         var valiableNeighbours = start.Neighbours.Where(x => x.Walkable).ToList();
@@ -46,7 +46,7 @@ public class NavigationManager : MonoBehaviour
         var sortedAllNeighbours = start.Neighbours
             .OrderBy(x => Vector2Int.Distance(x.Position, goal.Position))
             .ToList();
-        if (sortedAllNeighbours[0].Walkable) // If the best option is valiable,
+        if (sortedAllNeighbours[0].Walkable) // If the best option is available,
                                              // take it
             return sortedAllNeighbours[0];
 
@@ -69,15 +69,15 @@ public class NavigationManager : MonoBehaviour
     }
     public List<GridTile> GetPath(GridTile start, GridTile goal)
     {
-        return Astar.PathFinding(start, goal, nodeMap, maxPath);
+        return AStar.PathFinding(start, goal, nodeMap, maxPath);
     }
     private void OnMapChanged(GridMap gridMap)
     {
         nodeMap = ConstructNodeMap(gridMap);
     }
-    private Astar.NodeMap<GridTile> ConstructNodeMap(GridMap gridMap)
+    private AStar.NodeMap<GridTile> ConstructNodeMap(GridMap gridMap)
     {
-        Astar.NodeMap<GridTile> nodeMap = new Astar.NodeMap<GridTile>();
+        AStar.NodeMap<GridTile> nodeMap = new AStar.NodeMap<GridTile>();
 
         foreach (var item in gridMap.Tiles)
         {
@@ -87,9 +87,9 @@ public class NavigationManager : MonoBehaviour
             if (!gridTile.Walkable)
                 continue;
 
-            Astar.Node node = new Astar.Node();
+            AStar.Node node = new AStar.Node();
             node.Position = pos;
-            node.isActiveCheck = () => { return GridMap.Instance.CanWalk(gridTile.Position); };
+            node.IsActiveCheck = () => { return GridMap.Instance.CanWalk(gridTile.Position); };
             nodeMap.AddNode(node, gridTile);
         }
 
