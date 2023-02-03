@@ -8,7 +8,7 @@ public class NavigationManager : MonoBehaviour
 {
     public static NavigationManager Instance { get; private set; }
 
-    private int maxPath = 75;
+    private const int MaxPath = 75;
 
     private AStar.NodeMap<GridTile> nodeMap;
 
@@ -69,7 +69,7 @@ public class NavigationManager : MonoBehaviour
     }
     public List<GridTile> GetPath(GridTile start, GridTile goal)
     {
-        return AStar.PathFinding(start, goal, nodeMap, maxPath);
+        return AStar.PathFinding(start, goal, nodeMap, MaxPath);
     }
     private void OnMapChanged(GridMap gridMap)
     {
