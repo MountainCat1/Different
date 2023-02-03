@@ -39,7 +39,7 @@ public class NavigationManager : MonoBehaviour
         var availableNeighbours = start.Neighbours.Where(x => x.Walkable).ToList();
 
         if (availableNeighbours.Count == 1)  // If there is only one,
-                                            // you have no choice
+                                             // you have no choice
             return availableNeighbours[0];
 
 
@@ -55,13 +55,13 @@ public class NavigationManager : MonoBehaviour
             .OrderBy(x => Vector2Int.Distance(x.Position, goal.Position))
             .Take(2).ToList();              // Discard the worst option
 
-        float disntace0 = Vector2Int.Distance(sortedNeighbours[0].Position, goal.Position);
-        float disntace1 = Vector2Int.Distance(sortedNeighbours[1].Position, goal.Position);
-        int power = 10;
+        float distance0 = Vector2Int.Distance(sortedNeighbours[0].Position, goal.Position);
+        float distance1 = Vector2Int.Distance(sortedNeighbours[1].Position, goal.Position);
+        int power = 10; // Determines how much more preferable is the better path
 
-        float random = UnityEngine.Random.Range(0, Mathf.Pow(disntace0, power) + Mathf.Pow(disntace1, power));
+        float random = UnityEngine.Random.Range(0, Mathf.Pow(distance0, power) + Mathf.Pow(distance1, power));
 
-        if (random > Mathf.Pow(disntace0, power))       // Pick option randomly,
+        if (random > Mathf.Pow(distance0, power))       // Pick option randomly,
                                                             // the better option have higher chance of being picked
             return sortedNeighbours[0];
         else
