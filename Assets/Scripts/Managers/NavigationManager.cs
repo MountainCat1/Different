@@ -17,7 +17,7 @@ public class NavigationManager : MonoBehaviour
         if (Instance)
         {
             Destroy(this);
-            Debug.LogError("Singeleton duplicated!");
+            Debug.LogError("Singleton duplicated!");
             Destroy(gameObject);
             return;
         }
@@ -36,11 +36,11 @@ public class NavigationManager : MonoBehaviour
         if (start.Neighbours.Count == 0) // If there is no neighbours, stay where you are
             return start;
 
-        var valiableNeighbours = start.Neighbours.Where(x => x.Walkable).ToList();
+        var availableNeighbours = start.Neighbours.Where(x => x.Walkable).ToList();
 
-        if (valiableNeighbours.Count == 1)  // If there is only one,
+        if (availableNeighbours.Count == 1)  // If there is only one,
                                             // you have no choice
-            return valiableNeighbours[0];
+            return availableNeighbours[0];
 
 
         var sortedAllNeighbours = start.Neighbours
@@ -51,7 +51,7 @@ public class NavigationManager : MonoBehaviour
             return sortedAllNeighbours[0];
 
 
-        var sortedNeighbours = valiableNeighbours
+        var sortedNeighbours = availableNeighbours
             .OrderBy(x => Vector2Int.Distance(x.Position, goal.Position))
             .Take(2).ToList();              // Discard the worst option
 
@@ -61,8 +61,8 @@ public class NavigationManager : MonoBehaviour
 
         float random = UnityEngine.Random.Range(0, Mathf.Pow(disntace0, power) + Mathf.Pow(disntace1, power));
 
-        if (random > Mathf.Pow(disntace0, power))        // Pick option randomly,
-                                                         // the better option have higher chance of being picked
+        if (random > Mathf.Pow(disntace0, power))       // Pick option randomly,
+                                                            // the better option have higher chance of being picked
             return sortedNeighbours[0];
         else
             return sortedNeighbours[1];
