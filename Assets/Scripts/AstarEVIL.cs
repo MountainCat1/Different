@@ -6,15 +6,15 @@ using UnityEngine;
 
 namespace ShouldNotBeUsed
 {
-    public class Astar
+    public class AStar
     {
-        public static List<T> PathFingding<T>(T start, T goal, NodeMap<T> nodeMap, int breakPoint = 35) where T : class
+        public static List<T> PathFinding<T>(T start, T goal, NodeMap<T> nodeMap, int breakPoint = 35) where T : class
         {
             var startNode = nodeMap.Map.FirstOrDefault(x => x.Value == start).Key;
             var goalNode = nodeMap.Map.FirstOrDefault(x => x.Value == goal).Key;
 
 
-            List<Node> nodePath = AstarAlghorytm(
+            var nodePath = AStarAlgorithm(
                 startNode,
                 goalNode,
                 nodeMap.Nodes,
@@ -23,90 +23,78 @@ namespace ShouldNotBeUsed
             if (nodePath == null)
                 return null;
 
-            List<T> path = new List<T>();
-
-            foreach (Node node in nodePath)
-            {
-                path.Add(nodeMap.Map[node]);
-            }
-
-            return path;
+            return nodePath.Select(node => nodeMap.Map[node]).ToList();
         }
-        static List<Node> ReconstructPath(Dictionary<Node, Node> came_from, Node current_node)
+        static List<Node> ReconstructPath(Dictionary<Node, Node> cameFrom, Node currentNode)
         {
-            if (came_from.ContainsKey(current_node))
+            if (cameFrom.ContainsKey(currentNode))
             {
-                List<Node> p = ReconstructPath(came_from, came_from[current_node]);
-                p.Add(current_node);                                            // p + current_node ????
+                List<Node> p = ReconstructPath(cameFrom, cameFrom[currentNode]);
+                p.Add(currentNode);                                            // p + current_node ????
                 return p;
             }
             else
                 return new List<Node>();
         }
-        static List<Node> AstarAlghorytm(Node start, Node goal, List<Node> allNodes, int breakPoint)
+
+        private static List<Node> AStarAlgorithm(Node start, Node goal, List<Node> allNodes, int breakPoint)
         {
-            Dictionary<Node, Node> came_from = new Dictionary<Node, Node>();
+            var cameFrom = new Dictionary<Node, Node>();
 
-            List<Node> closedset = new List<Node>();                            // Zbiór wierzchołków przejrzanych.
-            List<Node> openset = new List<Node>();                              // Zbiór wierzchołków nieodwiedzonych, sąsiadujących z odwiedzonymi.
-            openset.Add(start);
-            Dictionary<Node, float> g_score = new Dictionary<Node, float>();    // Długość optymalnej trasy.
-            Dictionary<Node, float> h_score = new Dictionary<Node, float>();    // nwm kuźwa
-            Dictionary<Node, float> f_score = new Dictionary<Node, float>();    // ojojoj...
-
-
-            g_score.Add(start, 0);
+            var closedSet = new List<Node>();            // Searched through nodes                  
+            var openSet = new List<Node> { start };      // Nodes to be searched
+            var gScore = new Dictionary<Node, float>();  // Optimal path length adjusted for costs
+            var hScore = new Dictionary<Node, float>();  // Assumed path length
+            var fScore = new Dictionary<Node, float>();  // Combination of g and h score
+            gScore.Add(start, 0);
 
             foreach (Node node in allNodes)
             {
                 //g_score.Add(node, 0f);
-                f_score.Add(node, float.MaxValue);
+                fScore.Add(node, float.MaxValue);
             }
 
             int nodesChecked = 0;
 
-            while (openset.Count > 0)
-            {  //  while openset is not empty 
-                List<Node> temp = openset.OrderBy(n => f_score[n]).ToList();
-                Node x = temp.First();
-
+            while (openSet.Count > 0)
+            {  //  while open set is not empty 
+                var temp = openSet.OrderBy(n => fScore[n]).ToList();
+                var x = temp.First();
 
                 if (x == goal)
                 {
-
-                    return ReconstructPath(came_from, goal);
+                    return ReconstructPath(cameFrom, goal);
                 }
-                    
 
-                openset.Remove(x);
-                closedset.Add(x);
+                openSet.Remove(x);
+                closedSet.Add(x);
 
                 foreach (Node y in x.ActiveNeighbours.OrderBy(_x => _x.DistanceTo(goal)))
                 {
-                    if (closedset.Contains(y))
+                    if (closedSet.Contains(y))
                         continue;
-                    float tentative_g_score = g_score[x] + x.DistanceTo(y);
+                    float tentativeGScore = gScore[x] + x.DistanceTo(y);
 
-                    bool tentative_is_better = false;
-                    if (!openset.Contains(y))
+                    bool tentativeIsBetter = false;
+                    if (!openSet.Contains(y))
                     {
-                        openset.Add(y);
-                        h_score.Add(y, y.DistanceTo(goal));
-                        tentative_is_better = true;
+                        openSet.Add(y);
+                        hScore.Add(y, y.DistanceTo(goal));
+                        tentativeIsBetter = true;
                     }
-                    else if (tentative_g_score < g_score[y])
+                    else if (tentativeGScore < gScore[y])
                     {
-                        tentative_is_better = true;
+                        tentativeIsBetter = true;
                     }
-                    if (tentative_is_better == true)
+                    if (tentativeIsBetter == true)
                     {
-                        if (came_from.ContainsKey(y))
-                            came_from[y] = x;
+                        if (cameFrom.ContainsKey(y))
+                            cameFrom[y] = x;
                         else
-                            came_from.Add(y, x);
-                        g_score[y] = tentative_g_score;
+                            cameFrom.Add(y, x);
+                        gScore[y] = tentativeGScore;
 
-                        f_score[y] = g_score[y] + h_score[y];
+                        fScore[y] = gScore[y] + hScore[y];
                     }
                 }
                 nodesChecked++;
@@ -117,8 +105,8 @@ namespace ShouldNotBeUsed
         }
         public class NodeMap<T>
         {
-            public List<Node> Nodes = new List<Node>();
-            public Dictionary<Node, T> Map = new Dictionary<Node, T>();
+            public List<Node> Nodes { get; } = new();
+            public Dictionary<Node, T> Map { get; } = new();
 
 
             public void CreateEdgesUsingDistances(float maxDistance)
@@ -166,17 +154,15 @@ namespace ShouldNotBeUsed
 
             public delegate bool IsActiveCheckDelegate();
 
-            public IsActiveCheckDelegate IsActiveCheck = () => { return true; };
+            public IsActiveCheckDelegate IsActiveCheck { get; set; } = () => true;
 
             public float DistanceTo(Node node)
             {
                 if (Distances.TryGetValue(node, out float distance))
                     return distance;
-                else
-                {
-                    Distances.Add(node, Vector2.Distance(Position, node.Position));
-                    return Distances[node];
-                }
+                
+                Distances.Add(node, Vector2.Distance(Position, node.Position));
+                return Distances[node];
             }
         }
     }

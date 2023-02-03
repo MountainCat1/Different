@@ -10,7 +10,7 @@ public class NavigationManager : MonoBehaviour
 
     private int maxPath = 75;
 
-    private Astar.NodeMap<GridTile> nodeMap;
+    private AStar.NodeMap<GridTile> nodeMap;
 
     private void Awake()
     {
@@ -69,7 +69,7 @@ public class NavigationManager : MonoBehaviour
     }
     public List<GridTile> GetPath(GridTile start, GridTile goal)
     {
-        return Astar.PathFingding(start, goal, nodeMap, maxPath);
+        return Astar.PathFinding(start, goal, nodeMap, maxPath);
     }
     private void OnMapChanged(GridMap gridMap)
     {
@@ -89,7 +89,7 @@ public class NavigationManager : MonoBehaviour
 
             Astar.Node node = new Astar.Node();
             node.Position = pos;
-            node.IsActiveCheck = () => { return GridMap.Instance.CanWalk(gridTile.Position); };
+            node.isActiveCheck = () => { return GridMap.Instance.CanWalk(gridTile.Position); };
             nodeMap.AddNode(node, gridTile);
         }
 
